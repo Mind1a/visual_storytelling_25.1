@@ -10,7 +10,7 @@ export const Landing = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center gap-12 md:mt-[67px] md:mb-[47px] px-[33px] min-h-screen md:min-h-auto">
-        <h1 className="font-[FiraGO-Regular] text-2xl md:text-5xl text-center tracking-[3.36px] md:tracking-[6.72px]">ვიზუალური თხრობა</h1>
+        <h1 className="font-[FiraGO-Regular] text-[#583933] text-2xl md:text-5xl text-center tracking-[3.36px] md:tracking-[6.72px]">ვიზუალური თხრობა</h1>
         <iframe 
         className="w-full md:w-[798px] h-[219px] md:h-[449px]"
         src="https://www.youtube.com/embed/fVWUipoWnf8" 

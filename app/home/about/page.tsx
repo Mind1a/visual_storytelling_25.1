@@ -3,8 +3,8 @@ export default function page() {
   return (
      <div className="flex flex-col justify-center items-center">
       <div className="max-w-[1000px]">
-        <h2 className="mb-16 text-[32px] text-center">პროექტის შესახებ</h2>
-      <p>ლორემ იპსუმ ცივმა მეჯინიბე გამარჯვების ხნარცვი მონათლულებიც მეტროს ძიების. 
+        <h2 className="mb-16 font-[BPG-Nino-Mtavruli] font-bold text-[32px] text-center tracking-[0.32px]">პროექტის შესახებ</h2>
+      <p className="font-[BPG-Nino-Mkhedruli] text-lg tracking-[0.18px]">ლორემ იპსუმ ცივმა მეჯინიბე გამარჯვების ხნარცვი მონათლულებიც მეტროს ძიების. 
         ორგაზის გავცვალეთ იმყოფებოდა განსაკუთრებთ ძიების გაპარსვა შუგასთვის ბუხართან რუსეთზე ვიღაცეებს. 
         დამწყებმა მომხვედროდა იმყოფებოდა ზეთეიშვილი მაძღარ აპირებს. ავეგდე შესხდომის ჩიბუხით ვიღაცეებს, 
         მილიტარისტებს მაძღარ დაიჭირა მოტირალე გასაშლელად დარბაზს მაგია გულთმისანს. ძიების კენჭებს გაგზავნეს 
