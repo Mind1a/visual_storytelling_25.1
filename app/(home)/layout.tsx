@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body className="bg-white">
         <Header />
-        <main className="flex min-h-screen flex-col items-center justify-center bg-white">
+        <main className="flex min-h-screen flex-col overflow-hidden bg-white">
           {children}
         </main>
       </body>

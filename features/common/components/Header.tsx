@@ -7,10 +7,10 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 
 const routes = [
-  { path: "/home/ideas", label: "ნახატები და წინადადებები" },
-  { path: "/home/gallery", label: "გალერეა" },
-  { path: "/home/guide", label: "მასწავლებლის გზამკვლევი" },
-  { path: "/home/about", label: "პროექტის შესახებ" },
+  { path: "/ideas", label: "ნახატები და წინადადებები" },
+  { path: "/gallery", label: "გალერეა" },
+  { path: "/guide", label: "მასწავლებლის გზამკვლევი" },
+  { path: "/about", label: "პროექტის შესახებ" },
 ]
 
 export default function Header() {
@@ -18,9 +18,15 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="relative flex items-center justify-between bg-[#BAD8FC] px-20 py-3.5">
+    <header className="relative mx-auto flex max-w-[1366px] items-center justify-between bg-[#BAD8FC] px-8 py-3.5 md:px-20">
       <Link href="/">
-        <Image src="/logo.png" alt="Logo" width={100} height={53} />
+        <Image
+          src="/images/logo.svg"
+          alt="Logo"
+          width={100}
+          height={53}
+          priority
+        />
       </Link>
 
       <nav className="hidden max-w-[1001px] flex-1 pl-12 [@media(min-width:1068px)]:block">
