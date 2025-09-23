@@ -1,3 +1,4 @@
+import Gallery from "@/features/gallery/components/Gallery"
 export default function page() {
-  return <div>Gallery page</div>
+  return <Gallery />
 }
