@@ -31,13 +31,11 @@ export default function Header() {
 
       <nav className="hidden max-w-[1001px] flex-1 pl-12 [@media(min-width:1068px)]:block">
         <ul className="relative flex items-center justify-between font-[DejaVu-Sans] text-lg">
-          <div className="absolute right-0 bottom-[-8px] left-0 h-[2px] bg-[#f1d4d3]" />
-
           {routes.map((route, index) => {
             const isActive = pathname === route.path
 
             return (
-              <li key={index} className="relative px-2">
+              <li key={index} className="relative">
                 <Link href={route.path} className="relative z-10 pb-2">
                   {route.label}
                 </Link>
@@ -45,7 +43,7 @@ export default function Header() {
                   <motion.div
                     layoutId="active-underline"
                     className="absolute right-0 bottom-[-8px] left-0 h-[2px] bg-[#F9958F]"
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    transition={{ type: "spring", duration: 0.5 }}
                   />
                 )}
               </li>
