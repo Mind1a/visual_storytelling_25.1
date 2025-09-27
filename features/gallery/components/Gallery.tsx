@@ -48,8 +48,7 @@ function Gallery() {
 
   return (
     <div className="mx-auto w-full max-w-[1366px] px-8 md:px-[80px]">
-      <div className="mt-[64px] flex gap-6">
-        {/* Sidebar filters */}
+      <div className="mt-8 flex flex-col gap-10 sm:mt-[64px] sm:flex-row sm:gap-6">
         <div className="flex justify-between gap-6">
           <SearchFilter
             searchValue={searchValue}

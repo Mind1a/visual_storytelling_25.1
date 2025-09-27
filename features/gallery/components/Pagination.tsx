@@ -38,7 +38,7 @@ function Pagination({
             key={item}
             onClick={() => onPageChange(item as number)}
             aria-current={isActive ? "page" : undefined}
-            className={`flex h-[35px] w-[35px] items-center justify-center rounded-[5px] border-[1px] ${
+            className={`flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-[5px] border-[1px] ${
               isActive
                 ? "border-[#e6e6e6] bg-[#e6e6e6]"
                 : "border-[#e6e6e6] bg-white hover:bg-[#f5f5f5]"

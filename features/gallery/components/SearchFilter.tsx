@@ -11,7 +11,7 @@ function SearchFilter({
   handleCheckboxChange,
 }: SearchFilterProps) {
   return (
-    <div className="w-[181px] space-y-4">
+    <div className="w-full space-y-4 sm:w-[181px]">
       <div className="relative w-full rounded-[10px] border-[2px] border-[#a8a8a8] px-1 py-2">
         <Image
           src={searchIcon}
@@ -23,16 +23,16 @@ function SearchFilter({
         <input
           type="text"
           placeholder="ძიება"
-          className="ml-7 outline-none"
+          className="ml-7 w-9/10 outline-none"
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}
         />
       </div>
-      <div className="space-y-4">
+      <div className="space-y-2 sm:space-y-4">
         {galleryFilters.map((item, idx) => (
           <div
             key={idx}
-            className={`flex h-[44px] w-full items-center rounded-[10px] ${item.color} p-[10px] ${idx === 0 ? "" : "mt-[20px]"}`}
+            className={`flex h-[44px] w-full items-center rounded-[10px] ${item.color} p-[10px]`}
           >
             <input
               type="checkbox"

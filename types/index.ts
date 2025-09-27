@@ -28,6 +28,7 @@ export type SearchFilterProps = {
 export type GalleryItemProps = {
   item: WordsData
   onDownload: (imageUrl: string, fileName: string) => void
+  index: number
 }
 
 export type GalleryGridProps = {
