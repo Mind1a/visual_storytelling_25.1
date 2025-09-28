@@ -18,12 +18,13 @@ export const Landing = () => {
 
       {/* Video wrapper with fixed aspect ratio */}
       <div className="relative w-full flex-1 md:mt-[66px] md:mb-[46px]">
-        <iframe
+        <video
           className="absolute top-0 left-0 h-full w-full"
-          src="https://www.youtube.com/embed/fVWUipoWnf8"
-          title="როგორ გაზარდა ფიტნეს ტრენერმა აუდიტორია 100-დან 40 000 ადამიანამდე -  ნინო ჩერქეზიშვილი, ჩერი"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        />
+          controls
+          preload="none"
+        >
+          <source src="/videos/video.mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Button */}
