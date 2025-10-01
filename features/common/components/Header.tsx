@@ -18,7 +18,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="relative mx-auto flex max-w-[1366px] items-center justify-between bg-[#BAD8FC] px-8 py-3.5 md:px-20">
+    <header className="relative mx-auto flex max-w-[1270px] items-center justify-between bg-[#BAD8FC] px-8 py-3.5">
       <Link href="/">
         <Image
           src="/images/logo.svg"
@@ -30,20 +30,22 @@ export default function Header() {
       </Link>
 
       <nav className="hidden max-w-[1001px] flex-1 pl-12 [@media(min-width:1068px)]:block">
-        <ul className="flex items-center justify-between font-[DejaVu-Sans] text-lg">
+        <ul className="relative flex items-center justify-between font-[DejaVu-Sans] text-lg">
           {routes.map((route, index) => {
             const isActive = pathname === route.path
 
             return (
-              <li key={index}>
-                <Link
-                  href={route.path}
-                  className={
-                    isActive ? "border-b-2 border-[#F9958F] pb-[7.5px]" : ""
-                  }
-                >
+              <li key={index} className="relative">
+                <Link href={route.path} className="relative z-10 pb-2">
                   {route.label}
                 </Link>
+                {isActive && (
+                  <motion.div
+                    layoutId="active-underline"
+                    className="absolute right-0 bottom-[-8px] left-0 h-[2px] bg-[#F9958F]"
+                    transition={{ type: "spring", duration: 0.5 }}
+                  />
+                )}
               </li>
             )
           })}
