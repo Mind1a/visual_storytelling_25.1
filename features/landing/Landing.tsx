@@ -30,7 +30,7 @@ export const Landing = () => {
       {/* Button */}
       <button
         onClick={handleClick}
-        className="mb-8 w-full max-w-[325px] cursor-pointer rounded-[10px] bg-[#F5B3A3] p-2.5 font-[BPG-Nino-Mtavruli] font-bold text-white md:w-[185px]"
+        className="mb-8 w-full max-w-[325px] cursor-pointer rounded-[10px] bg-[#F9958F] p-2.5 font-[BPG-Nino-Mtavruli] font-bold text-white transition-colors hover:bg-[#F5B3A3] md:w-[185px]"
       >
         გაგრძელება
       </button>
