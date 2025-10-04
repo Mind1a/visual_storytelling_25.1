@@ -11,7 +11,7 @@ export default function page() {
   ]
 
   return (
-    <div className="mt-[53px] mb-22 font-[BPG-Nino-Mtavruli] md:mt-[70px]">
+    <div className="mt-[53px] font-[BPG-Nino-Mtavruli] md:mt-[70px]">
       {/* Buttons */}
       <div className="mx-auto mb-[59px] flex max-w-[390px] items-center gap-4 px-[33px] md:mb-[42px] md:justify-between md:px-0">
         <div className="flex max-w-[155px] flex-col items-center gap-[5.32px] md:max-w-[181px]">

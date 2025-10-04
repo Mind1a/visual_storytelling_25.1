@@ -47,7 +47,7 @@ function Gallery() {
   }, [searchValue, selectedFilters])
 
   return (
-    <div className="mx-auto w-full max-w-[1366px] px-8 md:px-[80px]">
+    <div className="mx-auto w-full max-w-[1238px] px-8">
       <div className="mt-8 flex flex-col gap-10 sm:mt-[64px] sm:flex-row sm:gap-6">
         <div className="flex justify-between gap-6">
           <SearchFilter
