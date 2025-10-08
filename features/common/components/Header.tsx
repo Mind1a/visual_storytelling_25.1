@@ -18,7 +18,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="relative mx-auto flex max-w-[1270px] items-center justify-between bg-[#BAD8FC] px-8 py-3.5">
+    <header className="relative mx-auto flex max-w-[1206px] items-center justify-between bg-[#BAD8FC] py-3.5">
       <Link href="/">
         <Image
           src="/images/logo.svg"

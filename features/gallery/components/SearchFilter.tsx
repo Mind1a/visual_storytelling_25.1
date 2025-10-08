@@ -35,12 +35,18 @@ function SearchFilter({
             className={`flex h-[44px] w-full items-center rounded-[10px] ${item.color} p-[10px]`}
           >
             <input
+              id={item.label}
               type="checkbox"
               className="relative h-[18px] w-[18px] cursor-pointer appearance-none rounded-[5px] border border-[#7f7f7f80] bg-white after:absolute after:top-1/2 after:left-1/2 after:h-[16px] after:w-[16px] after:-translate-x-1/2 after:-translate-y-1/2 after:content-[''] checked:bg-[#EBEDEF] checked:after:bg-[url('/icons/checkedIcon.svg')] checked:after:bg-contain checked:after:bg-center checked:after:bg-no-repeat"
               checked={selectedFilters.includes(item.type)}
               onChange={() => handleCheckboxChange(item.type)}
             />
-            <span className="ml-[5px] text-[14px]">{item.label}</span>
+            <label
+              htmlFor={item.label}
+              className="ml-[5px] cursor-pointer text-[14px]"
+            >
+              {item.label}
+            </label>
           </div>
         ))}
       </div>

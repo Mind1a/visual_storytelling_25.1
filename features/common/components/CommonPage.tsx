@@ -12,7 +12,7 @@ const CommonPage = ({
   description: string
 }) => {
   return (
-    <div className="relative mt-[62px] flex min-h-screen flex-col md:mt-[170px] md:min-h-auto">
+    <div className="relative mt-[62px] flex min-h-[100%] flex-col md:mt-[170px] md:min-h-auto">
       <div className="relative mx-auto w-full max-w-[1366px]">
         <div className="relative flex max-w-[1000px] flex-col gap-8 px-8 pb-[279px] md:mx-auto md:items-center">
           <h2 className="font-[BPG-Nino-Mtavruli] text-2xl font-bold tracking-[0.32px] md:text-[32px]">

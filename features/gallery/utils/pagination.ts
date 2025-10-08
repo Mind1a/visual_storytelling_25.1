@@ -4,24 +4,28 @@ export function getPaginationRange(
   current: number,
   total: number
 ): PaginationToken[] {
-  if (total <= 4) return Array.from({ length: total }, (_, i) => i + 1)
+  if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1)
 
   const range: PaginationToken[] = []
 
-  if (current <= 2) {
-    if (current === 1) return [1, 2, 3, "ELLIPSIS", total]
-    // current === 2 → 1, 2, 3, …, last
-    return [1, 2, 3, "ELLIPSIS", total]
+  range.push(1)
+
+  if (current > 3) {
+    range.push("ELLIPSIS")
   }
 
-  // End (no left ellipsis, just show the last block)
-  if (current >= total - 1) {
-    const start = Math.max(total - 3, 1)
-    for (let i = start; i <= total; i++) range.push(i)
-    return range
+  const start = Math.max(2, current - 1)
+  const end = Math.min(total - 1, current + 1)
+
+  for (let i = start; i <= end; i++) {
+    range.push(i)
   }
 
-  // Middle
-  range.push(current - 1, current, current + 1, "ELLIPSIS", total)
+  if (current < total - 2) {
+    range.push("ELLIPSIS")
+  }
+
+  range.push(total)
+
   return range
 }

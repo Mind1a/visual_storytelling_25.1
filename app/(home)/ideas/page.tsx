@@ -26,7 +26,7 @@ export default function IdeasPage() {
   }
 
   return (
-    <div className="mt-[53px] mb-22 font-[BPG-Nino-Mtavruli] md:mt-[70px]">
+    <div className="mt-[53px] font-[BPG-Nino-Mtavruli] md:mt-[70px]">
       {/* Buttons */}
       <IdeasButtons selected={selectedButton} onSelect={setSelectedButton} />
       {/* Main cards */}
