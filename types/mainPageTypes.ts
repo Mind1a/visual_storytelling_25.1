@@ -4,6 +4,7 @@ export type CategorieDataType = {
     text: string;
     bgColor: string;
     active: boolean;
+    mobielBg?: string;
 }
 
 export type CategoriesProps = {

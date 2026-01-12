@@ -2,7 +2,7 @@ import SentencePage from "@/features/mainPage/components/SentencePage"
 
 const MainPage = () => {
   return (
-    <div className="  ">
+    <div className="">
       <SentencePage />
     </div>
   )

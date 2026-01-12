@@ -7,6 +7,7 @@ export const categories: CategorieDataType[] = [
     text: "არსებითი სახელი",
     bgColor: "#A4BEF3",
     active: true,
+    mobielBg: "#BAD8FC"
     
   },
   {

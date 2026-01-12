@@ -1,12 +1,11 @@
 import type { CategoriesProps } from "@/types/mainPageTypes"
+export type PlaceholderDataType = {
+  id: number
+  text: string
+  imgSrc: string
+}
 
 const DisplayCards = ({ categories, active, setActive }: CategoriesProps) => {
-  type PlaceholderDataType = {
-    id: number
-    text: string
-    imgSrc: string
-  }
-
   const activeCategory = categories.find((cat) => cat.id === active)
 
   const placeHolderData: PlaceholderDataType[] = [
@@ -34,11 +33,11 @@ const DisplayCards = ({ categories, active, setActive }: CategoriesProps) => {
     >
       {placeHolderData.map((item) => (
         <div
-        style={{
+          style={{
             borderColor: activeCategory?.bgColor,
-        }}
+          }}
           key={item.id}
-          className="flex h-full w-full max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border  bg-white"
+          className="flex h-full w-full max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white"
         >
           <p>{item.text}</p>
         </div>
