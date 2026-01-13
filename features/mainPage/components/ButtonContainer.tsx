@@ -9,7 +9,7 @@ const ButtonContainer = () => {
             width={24}
             height={24}
             alt="arrow"
-            src="icons/whiteArrowLeft.svg"
+            src="/icons/whiteArrowLeft.svg"
             className="min-h-6 min-w-6"
           />
           <span className="mt-1.5 flex cursor-pointer items-center font-[BPG-Nino-Mtavruli] text-[16px] [@media(max-width:1068px)]:hidden">
@@ -18,12 +18,12 @@ const ButtonContainer = () => {
         </button>
 
         <div className="flex items-center justify-center rounded-[10px] bg-[#F5B3A3] px-[29px] py-3 [@media(max-width:1068px)]:px-7 [@media(max-width:1068px)]:py-[14px]">
-          <img src="icons/refreshIcon.svg" alt="" className="max-w-[72px]" />
+          <img src="/icons/refreshIcon.svg" alt="" className="max-w-[72px]" />
         </div>
 
         <div className="flex items-center justify-center rounded-[10px] bg-[#F5E393] px-[29px] py-3 [@media(max-width:1068px)]:px-6">
           <img
-            src="icons/screenshotIcon.svg"
+            src="/icons/screenshotIcon.svg"
             alt=""
             className="max-w-[72px] rounded-[10px]"
           />
@@ -37,7 +37,7 @@ const ButtonContainer = () => {
               width={24}
               height={24}
               alt="arrow"
-              src="icons/whiteArrowRight.svg"
+              src="/icons/whiteArrowRight.svg"
               className="min-h-6 min-w-6"
             />
           </div>
