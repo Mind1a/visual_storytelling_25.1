@@ -69,23 +69,6 @@ const MainSuccessPage = () => {
             className="absolute top-[261px] right-[338.83px] max-[1066px]:top-[349px] max-[1066px]:right-[22px] max-[1066px]:h-[56px] max-[1066px]:w-[56px]"
           />
         </div>
-
-        <div>
-          <img
-            aria-hidden="true"
-            src="/images/intersect.png"
-            alt="shape"
-            className="absolute bottom-0 left-0 max-[1066px]:h-[123px] max-[1066px]:w-[116px]"
-          />
-        </div>
-        <div>
-          <img
-            aria-hidden="true"
-            src="/images/Polygon-1.png"
-            alt="shape"
-            className="absolute right-0 bottom-0 max-[1066px]:h-[123px] max-[1066px]:w-[124px]"
-          />
-        </div>
       </div>
     </div>
   )
