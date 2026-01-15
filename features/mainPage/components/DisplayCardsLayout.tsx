@@ -8,7 +8,6 @@ const DisplayCardsLayout = (props: CategoriesProps) => {
 
   return (
     <>
-      {" "}
       {isMobile ? (
         <DisplayCardsMobile {...props} />
       ) : (
