@@ -1,12 +1,16 @@
 import type { CategoriesProps } from "@/types/mainPageTypes"
+import Draggable from "../utils/Draggable"
+
 export type PlaceholderDataType = {
   id: number
   text: string
   imgSrc: string
 }
 
-const DisplayCards = ({ categories, active, setActive }: CategoriesProps) => {
-  const activeCategory = categories.find((cat) => cat.id === active)
+const DisplayCards = ({ categories, active, setActive, dragged, activeDrag }: any) => {
+  const activeCategory = categories.find(
+    (cat: { id: number }) => cat.id === active
+  )
 
   const placeHolderData: PlaceholderDataType[] = [
     { id: 1, text: "Item 1", imgSrc: "random-img-1.svg" },
@@ -31,17 +35,31 @@ const DisplayCards = ({ categories, active, setActive }: CategoriesProps) => {
             : "rounded-r-[10px] rounded-b-[10px]"
       } `}
     >
-      {placeHolderData.map((item) => (
-        <div
-          style={{
-            borderColor: activeCategory?.bgColor,
-          }}
-          key={item.id}
-          className="flex h-full w-full max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white"
-        >
-          <p>{item.text}</p>
-        </div>
-      ))}
+      {placeHolderData.map((item) =>
+        dragged?.has(item.id) ? (
+          <div
+            key={item.id}
+            className={`flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white opacity-50 select-none`}
+            style={{
+              borderColor: activeCategory?.bgColor,
+            }}
+          >
+            <p>{item.text}</p>
+          </div>
+        ) : (
+          <Draggable
+          activeDrag={activeDrag}
+            key={item.id}
+            id={item.id}
+            className="flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white"
+            style={{
+              borderColor: activeCategory?.bgColor,
+            }}
+          >
+            <p>{item.text}</p>
+          </Draggable>
+        )
+      )}
     </div>
   )
 }
