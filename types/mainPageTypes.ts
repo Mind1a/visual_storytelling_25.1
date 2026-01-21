@@ -11,5 +11,13 @@ export type CategoriesProps = {
   categories: CategorieDataType[]
   active: number
   setActive: (id: number) => void
+ 
+}
+
+export type Card = {
+  id: string
+  type: "noun" | "case" | "verb" | "postposition"
+  value: string
+  label: string
 }
 

@@ -1,6 +1,12 @@
+"use client"
+
 import Image from "next/image"
 
-const ButtonContainer = () => {
+type ButtonContainerProps = {
+  refreshSteps: () => void
+}
+
+const ButtonContainer = ({ refreshSteps }: ButtonContainerProps) => {
   return (
     <div className="mx-auto mt-8 flex w-full max-w-[1366px] justify-center px-[80px]">
       <div className="flex space-x-6">
@@ -17,7 +23,10 @@ const ButtonContainer = () => {
           </span>
         </button>
 
-        <div className="flex items-center justify-center rounded-[10px] bg-[#F5B3A3] px-[29px] py-3 [@media(max-width:1068px)]:px-7 [@media(max-width:1068px)]:py-[14px]">
+        <div
+          onClick={() => refreshSteps()}
+          className="flex cursor-pointer items-center justify-center rounded-[10px] bg-[#F5B3A3] px-[29px] py-3 [@media(max-width:1068px)]:px-7 [@media(max-width:1068px)]:py-[14px]"
+        >
           <img src="/icons/refreshIcon.svg" alt="" className="max-w-[72px]" />
         </div>
 

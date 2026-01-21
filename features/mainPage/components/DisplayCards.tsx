@@ -1,4 +1,5 @@
-import type { CategoriesProps } from "@/types/mainPageTypes"
+"use client"
+
 import Draggable from "../utils/Draggable"
 
 export type PlaceholderDataType = {
@@ -7,20 +8,16 @@ export type PlaceholderDataType = {
   imgSrc: string
 }
 
-const DisplayCards = ({ categories, active, setActive, dragged, activeDrag }: any) => {
+const DisplayCards = ({
+  categories,
+  active,
+  dragged,
+  activeDrag,
+  displayCards,
+}: any) => {
   const activeCategory = categories.find(
     (cat: { id: number }) => cat.id === active
   )
-
-  const placeHolderData: PlaceholderDataType[] = [
-    { id: 1, text: "Item 1", imgSrc: "random-img-1.svg" },
-    { id: 2, text: "Item 2", imgSrc: "random-img-2.svg" },
-    { id: 3, text: "Item 3", imgSrc: "random-img-3.svg" },
-    { id: 4, text: "Item 4", imgSrc: "random-img-4.svg" },
-    { id: 5, text: "Item 5", imgSrc: "random-img-5.svg" },
-    { id: 6, text: "Item 6", imgSrc: "random-img-6.svg" },
-    { id: 7, text: "Item 7", imgSrc: "random-img-7.svg" },
-  ]
 
   return (
     <div
@@ -35,28 +32,28 @@ const DisplayCards = ({ categories, active, setActive, dragged, activeDrag }: an
             : "rounded-r-[10px] rounded-b-[10px]"
       } `}
     >
-      {placeHolderData.map((item) =>
-        dragged?.has(item.id) ? (
+      {displayCards.map((item: any, idx: any) =>
+        dragged?.has(item?.id) ? (
           <div
-            key={item.id}
+            key={idx}
             className={`flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white opacity-50 select-none`}
             style={{
               borderColor: activeCategory?.bgColor,
             }}
           >
-            <p>{item.text}</p>
+            <p>{item?.value}</p>
           </div>
         ) : (
           <Draggable
-          activeDrag={activeDrag}
-            key={item.id}
-            id={item.id}
+            activeDrag={activeDrag}
+            key={idx}
+            id={item?.id}
             className="flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white"
             style={{
               borderColor: activeCategory?.bgColor,
             }}
           >
-            <p>{item.text}</p>
+            <p>{item?.value}</p>
           </Draggable>
         )
       )}
