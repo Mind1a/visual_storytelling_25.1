@@ -16,24 +16,39 @@ import DisplayCardsLayout from "./DisplayCardsLayout"
 import { Card } from "@/types/mainPageTypes"
 
 const SentencePage = () => {
+  // რომელი კატეგორია აქტიური Id- ს მიხედვით
   const [active, setActive] = useState<number>(1)
+  // 5 ელემენტიანი array, თავიდან არის ყველა null, მერე იმის მიხედვით თუ რას აირჩევს useri - იმ არჩეუილმა Card - მა ჩაანაცვლოს null - იმ ინდექსზე რომელზეც ჩასვა
   const [chosen, setChosen] = useState<(Card | null)[]>(Array(5).fill(null))
+  // ის ქარდები რომელიც უკვე გამოვიყენეთ
   const [dragged, setDragged] = useState<Set<number>>(new Set())
+  // კონკრეტული ქარდზე ხელი გვაქ თუ არა მოკიდებული
   const [isDragging, setIsDragging] = useState(false)
+  // იმ კონკრეტული ქარდის Id, რომელზეც ხელი გვაქ მოკიდებული
   const [activeDrag, setActiveDrag] = useState<string | null>(null)
+  // 0-5 მდე, ამის მიხედვით ვაჩენ რომელი კატეგორია უნდა გამოჩნდეს
   const [currentStep, setCurrentStep] = useState<number>(0)
+  // ქარდები, რომლებსაც ვაიმპორტებ, strate - მჭირდება shuffle - ისთვის
   const [cards, setCards] = useState<Card[]>([])
+  // უკვე არეული ქარდები
   const [shuffledGroupedCards, setShuffledGroupedCards] = useState<
     Record<string, (Card | null)[]>
   >({})
+
+  // ეს ფუნქცია არევს ქარდებს
 
   function shuffleArray<T>(arr: T[]): T[] {
     return [...arr].sort(() => Math.random() - 0.5)
   }
 
+  // დინამიური იმპორტი რომ ქარდები თუ ძაან ბევრია/მძიმეა მარტო მაშინ ჩაიტვირთოს როცა გვჭირდება, (არვიცი რამდენად საჭიროა ამ შემთხვევაში)
+
   useEffect(() => {
     import("../data/cardsPlaceholderData").then((mod) => setCards(mod.cards))
   }, [])
+
+
+  // ეს ფუნქცია არევს ქარდებს, დაალაგებებს ტიპების მიხედვით, შექმნის 4 arrays, სადაც თითოეულში გაეერთიანბეს მსგავს ტიპებს, თუ ამ გაერთიანებულ array - ში 7 -ზე ცოტა ელემნტი იქნება, ხელოვნურად შევავსე 7 -მდე, რო დიზაინზე გამოჩნდეს ცარიელი div - ები
 
   useEffect(() => {
     if (cards.length === 0) return
@@ -61,10 +76,14 @@ const SentencePage = () => {
     4: "verb",
   }
 
+  // უკვე არეული ქარდები, რომლებიც უნდა გამოჩნდეს
+
   const displayCards = shuffledGroupedCards[typeMap[active]] || []
 
   const activeCard = cards.find((card) => card.id === activeDrag)
 
+
+  // ქარდს, თუ არასწორად მივიტანთ რო ჩავსვათ, უკან ეგრევე რო არ გადახტეს, და ნელა დაბრუნდეს
   const dropAnimation = {
     duration: 300,
     easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
@@ -77,6 +96,8 @@ const SentencePage = () => {
     }),
   }
 
+
+  // currentStep - ის მიხედვით რომ შევცვალოთ რომელი კატეგორიაა აქტიური
   useEffect(() => {
     switch (currentStep) {
       case 0:
@@ -100,11 +121,15 @@ const SentencePage = () => {
     }
   }, [currentStep])
 
+
+  // refresh - მა გაასუფთავოს უკვე გამოყენებული ქარდების სეტი, და თავიდან დააგენერიროს არჩეული ქარდების null - ერრეი, ასევე currentStep - 0-ზე
   const refreshSteps = () => {
     setCurrentStep(0)
     setDragged(new Set())
     setChosen(Array(5).fill(null))
   }
+
+  // ეს აწყყობს წინადადებას ინპუთში, თუ ბრუნვის ნიშანია ტირეთი გამოყოს, და არსებით სახელებს ბოლო ასო ჩამოაჭრას რო გამოჩნდეს მაგალითად მაიმუნ - ს/ი და არა მაიმუნი - ი/ს
 
   const buildSentence = (chosen: (Card | null)[]) => {
     return chosen
@@ -120,6 +145,8 @@ const SentencePage = () => {
       .filter(Boolean)
       .join(" ")
   }
+
+  // DND - ის ბიბლიოთეკიდან, აქ იმას ვშვები რო მარტო კონკრეტულ div - ებში შეგვეძლოს ქარდების ჩაყრა, რომელი ქარდია უკვე გამოყენებული და არჩეული, იმის მერე რაც ქარდს უკვე ჩავსვამთ მერე გაზარდოს currentStep - ი
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
@@ -142,12 +169,14 @@ const SentencePage = () => {
   }
 
   return (
+    
     <DndContext
       onDragEnd={(event) => {
         handleDragEnd(event)
         setIsDragging(false)
         setActiveDrag(null)
       }}
+      // აქტიური ქარდი რომელია აქ ვიღებთ მაგის id - ს
       onDragStart={(e) => {
         setIsDragging(true)
         setActiveDrag(e.active.id as string)
