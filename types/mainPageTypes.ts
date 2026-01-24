@@ -21,3 +21,7 @@ export type Card = {
   label: string
 }
 
+export type CorrectCard = Omit<Card, "label">
+
+
+

@@ -14,6 +14,8 @@ import CardOutput from "./CardOutput"
 import ButtonContainer from "./ButtonContainer"
 import DisplayCardsLayout from "./DisplayCardsLayout"
 import { Card } from "@/types/mainPageTypes"
+import { correctSentence1 } from "../data/cardsPlaceholderData"
+import { ensureCorrectValue } from "../utils/ensureCorrectValue"
 
 const SentencePage = () => {
   // რომელი კატეგორია აქტიური Id- ს მიხედვით
@@ -30,6 +32,8 @@ const SentencePage = () => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   // ქარდები, რომლებსაც ვაიმპორტებ, strate - მჭირდება shuffle - ისთვის
   const [cards, setCards] = useState<Card[]>([])
+  
+  const [correctCards, setCorrectCards] = useState(correctSentence1)
   // უკვე არეული ქარდები
   const [shuffledGroupedCards, setShuffledGroupedCards] = useState<
     Record<string, (Card | null)[]>
@@ -46,7 +50,6 @@ const SentencePage = () => {
   useEffect(() => {
     import("../data/cardsPlaceholderData").then((mod) => setCards(mod.cards))
   }, [])
-
 
   // ეს ფუნქცია არევს ქარდებს, დაალაგებებს ტიპების მიხედვით, შექმნის 4 arrays, სადაც თითოეულში გაეერთიანბეს მსგავს ტიპებს, თუ ამ გაერთიანებულ array - ში 7 -ზე ცოტა ელემნტი იქნება, ხელოვნურად შევავსე 7 -მდე, რო დიზაინზე გამოჩნდეს ცარიელი div - ები
 
@@ -67,6 +70,10 @@ const SentencePage = () => {
     })
 
     setShuffledGroupedCards(finalGroups)
+    setShuffledGroupedCards((prev) => ({
+      ...prev,
+      [typeMap[1]]: ensureCorrectValue(prev[typeMap[1]], correctCards),
+    }))
   }, [cards])
 
   const typeMap: Record<number, "noun" | "case" | "verb" | "postposition"> = {
@@ -79,9 +86,10 @@ const SentencePage = () => {
   // უკვე არეული ქარდები, რომლებიც უნდა გამოჩნდეს
 
   const displayCards = shuffledGroupedCards[typeMap[active]] || []
+  console.log()
 
-  const activeCard = cards.find((card) => card.id === activeDrag)
-
+  const activeCard =
+    displayCards.find((card) => card?.id === activeDrag) ?? null
 
   // ქარდს, თუ არასწორად მივიტანთ რო ჩავსვათ, უკან ეგრევე რო არ გადახტეს, და ნელა დაბრუნდეს
   const dropAnimation = {
@@ -95,7 +103,6 @@ const SentencePage = () => {
       },
     }),
   }
-
 
   // currentStep - ის მიხედვით რომ შევცვალოთ რომელი კატეგორიაა აქტიური
   useEffect(() => {
@@ -120,7 +127,6 @@ const SentencePage = () => {
         break
     }
   }, [currentStep])
-
 
   // refresh - მა გაასუფთავოს უკვე გამოყენებული ქარდების სეტი, და თავიდან დააგენერიროს არჩეული ქარდების null - ერრეი, ასევე currentStep - 0-ზე
   const refreshSteps = () => {
@@ -169,7 +175,6 @@ const SentencePage = () => {
   }
 
   return (
-    
     <DndContext
       onDragEnd={(event) => {
         handleDragEnd(event)
