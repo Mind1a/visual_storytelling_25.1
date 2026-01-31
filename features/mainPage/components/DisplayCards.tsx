@@ -1,5 +1,6 @@
 "use client"
 
+import SkeletonCard from "../utils/DisplayCardsSkeleton"
 import Draggable from "../utils/Draggable"
 
 export type PlaceholderDataType = {
@@ -14,6 +15,7 @@ const DisplayCards = ({
   dragged,
   activeDrag,
   displayCards,
+  loading,
 }: any) => {
   const activeCategory = categories.find(
     (cat: { id: number }) => cat.id === active
@@ -32,31 +34,29 @@ const DisplayCards = ({
             : "rounded-r-[10px] rounded-b-[10px]"
       } `}
     >
-      {displayCards.map((item: any, idx: any) =>
-        dragged?.has(item?.id) ? (
-          <div
-            key={idx}
-            className={`flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white opacity-50 select-none`}
-            style={{
-              borderColor: activeCategory?.bgColor,
-            }}
-          >
-            <p>{item?.value}</p>
-          </div>
-        ) : (
-          <Draggable
-            activeDrag={activeDrag}
-            key={idx}
-            id={item?.id}
-            className="flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white"
-            style={{
-              borderColor: activeCategory?.bgColor,
-            }}
-          >
-            <p>{item?.value}</p>
-          </Draggable>
-        )
-      )}
+      {loading
+        ? Array.from({ length: 7 }).map((_, idx) => <SkeletonCard key={idx} />)
+        : displayCards.map((item: any, idx: number) =>
+            dragged?.has(item?.id) ? (
+              <div
+                key={idx}
+                className="flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white opacity-50 select-none"
+                style={{ borderColor: activeCategory?.bgColor }}
+              >
+                <p>{item?.value}</p>
+              </div>
+            ) : (
+              <Draggable
+                activeDrag={activeDrag}
+                key={idx}
+                id={item?.id}
+                className="flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white"
+                style={{ borderColor: activeCategory?.bgColor }}
+              >
+                <p>{item?.value}</p>
+              </Draggable>
+            )
+          )}
     </div>
   )
 }

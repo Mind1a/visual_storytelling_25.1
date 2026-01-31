@@ -18,7 +18,7 @@ export type Card = {
   id: string
   type: "noun" | "case" | "verb" | "postposition"
   value: string
-  label: string
+  label?: string
 }
 
 export type CorrectCard = Omit<Card, "label">

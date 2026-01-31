@@ -32,12 +32,14 @@ const SentencePage = () => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   // ქარდები, რომლებსაც ვაიმპორტებ, strate - მჭირდება shuffle - ისთვის
   const [cards, setCards] = useState<Card[]>([])
-  
+
   const [correctCards, setCorrectCards] = useState(correctSentence1)
   // უკვე არეული ქარდები
   const [shuffledGroupedCards, setShuffledGroupedCards] = useState<
     Record<string, (Card | null)[]>
   >({})
+
+  const [typeMapIndex, setTypeMapIndex] = useState<1 | 2 | 3 | 4>(1)
 
   // ეს ფუნქცია არევს ქარდებს
 
@@ -56,24 +58,41 @@ const SentencePage = () => {
   useEffect(() => {
     if (cards.length === 0) return
 
+    // ქარდები დავაჯგუფოთ type - ს მიხედვით
     const groups: Record<string, Card[]> = {}
     cards.forEach((card) => {
       if (!groups[card.type]) groups[card.type] = []
       groups[card.type].push(card)
     })
 
+    // საბოლოო ჯგუფი შევქმნათ, თუ არაა 7 ელემენტი შევავსოთ ცარიელით
     const finalGroups: Record<string, (Card | null)[]> = {}
-    Object.keys(groups).forEach((type) => {
-      const shuffled = shuffleArray(groups[type]).slice(0, 7)
+
+    const types: ("noun" | "case" | "verb" | "postposition")[] = [
+      "noun",
+      "case",
+      "verb",
+      "postposition",
+    ]
+
+    types.forEach((type) => {
+      // კონკრეტული ტიპის ქარდების ჯგუფი
+      const existing = groups[type] ?? []
+
+      // შევამოწმოთ არსებობს თუ არა ამ array - ში სწორი ქარდები
+      let arr = ensureCorrectValue(existing, correctSentence1, type, 7)
+
+      // ავრიოთ მარტო ელემენტები, არა ცარიელები
+      const realCards = arr.filter(Boolean) as Card[]
+      const shuffled = shuffleArray(realCards)
+
+      // ცარიელი ქარდები
       const emptySlots = Array(7 - shuffled.length).fill(null)
-      finalGroups[type] = [...shuffled, ...emptySlots]
+      finalGroups[type] = [...shuffled, ...emptySlots].slice(0, 7)
     })
 
+    
     setShuffledGroupedCards(finalGroups)
-    setShuffledGroupedCards((prev) => ({
-      ...prev,
-      [typeMap[1]]: ensureCorrectValue(prev[typeMap[1]], correctCards),
-    }))
   }, [cards])
 
   const typeMap: Record<number, "noun" | "case" | "verb" | "postposition"> = {
@@ -109,18 +128,27 @@ const SentencePage = () => {
     switch (currentStep) {
       case 0:
         setActive(1)
+        setTypeMapIndex(1)
         break
       case 1:
         setActive(2)
+        setTypeMapIndex(2)
+
         break
       case 2:
         setActive(1)
+        setTypeMapIndex(1)
+
         break
       case 3:
         setActive(2)
+        setTypeMapIndex(2)
+
         break
       case 4:
         setActive(4)
+        setTypeMapIndex(4)
+
         break
 
       default:
