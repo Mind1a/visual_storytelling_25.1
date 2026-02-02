@@ -4,9 +4,13 @@ import Image from "next/image"
 
 type ButtonContainerProps = {
   refreshSteps: () => void
+  takeScreenshot: () => Promise<void>
 }
 
-const ButtonContainer = ({ refreshSteps }: ButtonContainerProps) => {
+const ButtonContainer = ({
+  refreshSteps,
+  takeScreenshot,
+}: ButtonContainerProps) => {
   return (
     <div className="mx-auto mt-8 flex w-full max-w-[1366px] justify-center px-[80px]">
       <div className="flex space-x-6">
@@ -27,14 +31,21 @@ const ButtonContainer = ({ refreshSteps }: ButtonContainerProps) => {
           onClick={() => refreshSteps()}
           className="flex cursor-pointer items-center justify-center rounded-[10px] bg-[#F5B3A3] px-[29px] py-3 [@media(max-width:1068px)]:px-7 [@media(max-width:1068px)]:py-[14px]"
         >
-          <img src="/icons/refreshIcon.svg" alt="" className="max-w-[72px]" />
+          <img
+            src="/icons/refreshIcon.svg"
+            alt="refresh"
+            className="max-w-[72px]"
+          />
         </div>
 
-        <div className="flex items-center justify-center rounded-[10px] bg-[#F5E393] px-[29px] py-3 [@media(max-width:1068px)]:px-6">
+        <div
+          className="flex items-center justify-center rounded-[10px] bg-[#F5E393] px-[29px] py-3 [@media(max-width:1068px)]:px-6"
+          onClick={() => takeScreenshot()}
+        >
           <img
             src="/icons/screenshotIcon.svg"
-            alt=""
-            className="max-w-[72px] rounded-[10px]"
+            alt="take photo"
+            className="max-w-[72px] cursor-pointer rounded-[10px]"
           />
         </div>
         <button className="flex items-center justify-center gap-2 rounded-[10px] bg-[#73C9C1] px-[36px] py-2.5 [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5">

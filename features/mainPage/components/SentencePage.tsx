@@ -16,6 +16,7 @@ import DisplayCardsLayout from "./DisplayCardsLayout"
 import { Card } from "@/types/mainPageTypes"
 import { correctSentence1 } from "../data/cardsPlaceholderData"
 import { ensureCorrectValue } from "../utils/ensureCorrectValue"
+import useScreenshot from "../utils/useScreenshot"
 
 const SentencePage = () => {
   // რომელი კატეგორია აქტიური Id- ს მიხედვით
@@ -39,7 +40,9 @@ const SentencePage = () => {
     Record<string, (Card | null)[]>
   >({})
 
-  const [typeMapIndex, setTypeMapIndex] = useState<1 | 2 | 3 | 4>(1)
+  const [ref, takeScreenshot] = useScreenshot()
+
+
 
   // ეს ფუნქცია არევს ქარდებს
 
@@ -128,26 +131,26 @@ const SentencePage = () => {
     switch (currentStep) {
       case 0:
         setActive(1)
-        setTypeMapIndex(1)
+        
         break
       case 1:
         setActive(2)
-        setTypeMapIndex(2)
+        
 
         break
       case 2:
         setActive(1)
-        setTypeMapIndex(1)
+        
 
         break
       case 3:
         setActive(2)
-        setTypeMapIndex(2)
+        
 
         break
       case 4:
         setActive(4)
-        setTypeMapIndex(4)
+        
 
         break
 
@@ -204,6 +207,7 @@ const SentencePage = () => {
 
   return (
     <DndContext
+    
       onDragEnd={(event) => {
         handleDragEnd(event)
         setIsDragging(false)
@@ -215,7 +219,7 @@ const SentencePage = () => {
         setActiveDrag(e.active.id as string)
       }}
     >
-      <div className="my-8 flex w-full min-w-[1206px] flex-col [@media(max-width:1068px)]:min-w-0">
+      <div className="my-8 flex w-full min-w-[1206px] flex-col [@media(max-width:1068px)]:min-w-0" ref={ref}>
         <div className="mx-auto flex gap-[11px] px-[80px] [@media(max-width:1068px)]:mx-0 [@media(max-width:1068px)]:min-w-0 [@media(max-width:1068px)]:flex-col [@media(max-width:1068px)]:items-center [@media(max-width:1068px)]:px-8 [@media(max-width:1358px)]:px-[40px]">
           <Categories
             categories={categories}
@@ -240,7 +244,7 @@ const SentencePage = () => {
           activeCard={activeCard}
         />
         <CardOutput buildSentence={buildSentence} chosen={chosen} />
-        <ButtonContainer refreshSteps={refreshSteps} />
+        <ButtonContainer refreshSteps={refreshSteps} takeScreenshot={takeScreenshot} />
       </div>
       <DragOverlay dropAnimation={dropAnimation}>
         {activeDrag ? (

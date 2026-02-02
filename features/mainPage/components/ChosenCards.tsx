@@ -11,7 +11,19 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
   const isMobile = useMediaQuery("(max-width: 1068px )")
   const [emblaInstance, setEmblaInstance] = useState(null)
   const firstEmptyIndex = chosen.findIndex((v: string | null) => v === null)
-  
+
+  const borderByType = (type?: Card["type"]) => {
+    switch (type) {
+      case "noun":
+        return "border-[#A4BEF3]"
+      case "case":
+        return "border-[#F5E393]"
+      case "verb":
+        return "border-[#F5B3A3]"
+      default:
+        return "border-transparent"
+    }
+  }
 
   return (
     <div className="mt-8 bg-[#BAD8FC] [@media(max-width:1068px)]:mx-auto [@media(max-width:1068px)]:max-w-[326px] [@media(max-width:1068px)]:rounded-[16px]">
@@ -26,7 +38,17 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                       key={i}
                       id={`slot-${i}`}
                       value={value?.value}
-                      className="flex h-[130px] w-[130px] items-center justify-center rounded-[10px] border bg-white max-lg:h-[100px] max-lg:w-[100px]"
+                      style={{
+                        borderColor:
+                          value?.type === "noun"
+                            ? "#A4BEF3"
+                            : value?.type === "case"
+                              ? "#F5E393"
+                              : value?.type === "verb"
+                                ? "#F5B3A3"
+                                : "transparent",
+                      }}
+                      className="flex h-[130px] w-[130px] items-center justify-center rounded-[10px] border-4 bg-white max-lg:h-[100px] max-lg:w-[100px]"
                       isHighlighted={isDragging && i === firstEmptyIndex}
                     ></Droppable>
                   </EmblaSlide>
@@ -44,7 +66,17 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                     key={i}
                     id={`slot-${i}`}
                     value={value?.value}
-                    className="flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-[#F5B3A3] [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white"
+                    style={{
+                      borderColor:
+                        value?.type === "noun"
+                          ? "#A4BEF3"
+                          : value?.type === "case"
+                            ? "#F5E393"
+                            : value?.type === "verb"
+                              ? "#F5B3A3"
+                              : "transparent",
+                    }}
+                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
                     isHighlighted={isDragging && i === currentStep}
                   />
                 )
@@ -52,9 +84,19 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                 return (
                   <div
                     key={i}
-                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-[#F5B3A3] ${value ? "opacity-100" : "opacity-50"} select-none [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
+                    style={{
+                      borderColor:
+                        value?.type === "noun"
+                          ? "#A4BEF3"
+                          : value?.type === "case"
+                            ? "#F5E393"
+                            : value?.type === "verb"
+                              ? "#F5B3A3"
+                              : "",
+                    }}
+                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] ${value ? "opacity-100" : "opacity-50"} select-none [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
                   >
-                    {value?.value}
+                    {value?.value ?? "Drop here"}
                   </div>
                 )
               }
