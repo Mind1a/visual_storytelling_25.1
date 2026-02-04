@@ -12,19 +12,6 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
   const [emblaInstance, setEmblaInstance] = useState(null)
   const firstEmptyIndex = chosen.findIndex((v: string | null) => v === null)
 
-  const borderByType = (type?: Card["type"]) => {
-    switch (type) {
-      case "noun":
-        return "border-[#A4BEF3]"
-      case "case":
-        return "border-[#F5E393]"
-      case "verb":
-        return "border-[#F5B3A3]"
-      default:
-        return "border-transparent"
-    }
-  }
-
   return (
     <div className="mt-8 bg-[#BAD8FC] [@media(max-width:1068px)]:mx-auto [@media(max-width:1068px)]:max-w-[326px] [@media(max-width:1068px)]:rounded-[16px]">
       <div className="mx-auto max-w-[1366px]">
@@ -35,19 +22,10 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                 {chosen.map((value: Card | null, i: number) => (
                   <EmblaSlide key={i}>
                     <Droppable
+                      idx={i}
                       key={i}
                       id={`slot-${i}`}
                       value={value?.value}
-                      style={{
-                        borderColor:
-                          value?.type === "noun"
-                            ? "#A4BEF3"
-                            : value?.type === "case"
-                              ? "#F5E393"
-                              : value?.type === "verb"
-                                ? "#F5B3A3"
-                                : "transparent",
-                      }}
                       className="flex h-[130px] w-[130px] items-center justify-center rounded-[10px] border-4 bg-white max-lg:h-[100px] max-lg:w-[100px]"
                       isHighlighted={isDragging && i === firstEmptyIndex}
                     ></Droppable>
@@ -63,20 +41,11 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
               if (i === currentStep) {
                 return (
                   <Droppable
+                    idx={i}
                     key={i}
                     id={`slot-${i}`}
                     value={value?.value}
-                    style={{
-                      borderColor:
-                        value?.type === "noun"
-                          ? "#A4BEF3"
-                          : value?.type === "case"
-                            ? "#F5E393"
-                            : value?.type === "verb"
-                              ? "#F5B3A3"
-                              : "transparent",
-                    }}
-                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
+                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-solid [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
                     isHighlighted={isDragging && i === currentStep}
                   />
                 )
@@ -85,16 +54,17 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                   <div
                     key={i}
                     style={{
-                      borderColor:
-                        value?.type === "noun"
+                      border: `5px solid ${
+                        i === 0 || i === 2
                           ? "#A4BEF3"
-                          : value?.type === "case"
+                          : i === 1 || i === 3
                             ? "#F5E393"
-                            : value?.type === "verb"
+                            : i === 4
                               ? "#F5B3A3"
-                              : "",
+                              : "transparent"
+                      }`,
                     }}
-                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] ${value ? "opacity-100" : "opacity-50"} select-none [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
+                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-solid select-none [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
                   >
                     {value?.value ?? "Drop here"}
                   </div>

@@ -8,8 +8,8 @@ const useScreenshot = (): [
   () => Promise<void>,
 ] => {
   const ref = useRef<HTMLDivElement | null>(null)
-
   const takeScreenshot = useCallback(async () => {
+    await document.fonts.ready
     if (ref.current) {
       const canvas = await html2canvas(ref.current)
       const imgData = canvas.toDataURL("image/png")

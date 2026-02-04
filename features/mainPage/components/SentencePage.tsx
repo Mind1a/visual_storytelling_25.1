@@ -8,7 +8,7 @@ import {
 } from "@dnd-kit/core"
 import Categories from "./Categories"
 import { categories } from "../data/categoriesData"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ChosenCards from "./ChosenCards"
 import CardOutput from "./CardOutput"
 import ButtonContainer from "./ButtonContainer"
@@ -33,16 +33,13 @@ const SentencePage = () => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   // ქარდები, რომლებსაც ვაიმპორტებ, strate - მჭირდება shuffle - ისთვის
   const [cards, setCards] = useState<Card[]>([])
-
   const [correctCards, setCorrectCards] = useState(correctSentence1)
   // უკვე არეული ქარდები
   const [shuffledGroupedCards, setShuffledGroupedCards] = useState<
     Record<string, (Card | null)[]>
   >({})
-
+  const [history, setHistory] = useState<Record<string, (Card | null)[]>[]>([])
   const [ref, takeScreenshot] = useScreenshot()
-
-
 
   // ეს ფუნქცია არევს ქარდებს
 
@@ -58,7 +55,7 @@ const SentencePage = () => {
 
   // ეს ფუნქცია არევს ქარდებს, დაალაგებებს ტიპების მიხედვით, შექმნის 4 arrays, სადაც თითოეულში გაეერთიანბეს მსგავს ტიპებს, თუ ამ გაერთიანებულ array - ში 7 -ზე ცოტა ელემნტი იქნება, ხელოვნურად შევავსე 7 -მდე, რო დიზაინზე გამოჩნდეს ცარიელი div - ები
 
-  useEffect(() => {
+  const shuffle = () => {
     if (cards.length === 0) return
 
     // ქარდები დავაჯგუფოთ type - ს მიხედვით
@@ -94,8 +91,17 @@ const SentencePage = () => {
       finalGroups[type] = [...shuffled, ...emptySlots].slice(0, 7)
     })
 
-    
+    setHistory((prev) =>
+      Object.keys(shuffledGroupedCards).length
+        ? [...prev, shuffledGroupedCards]
+        : prev
+    )
+
     setShuffledGroupedCards(finalGroups)
+  }
+
+  useEffect(() => {
+    shuffle()
   }, [cards])
 
   const typeMap: Record<number, "noun" | "case" | "verb" | "postposition"> = {
@@ -108,7 +114,6 @@ const SentencePage = () => {
   // უკვე არეული ქარდები, რომლებიც უნდა გამოჩნდეს
 
   const displayCards = shuffledGroupedCards[typeMap[active]] || []
-  console.log()
 
   const activeCard =
     displayCards.find((card) => card?.id === activeDrag) ?? null
@@ -131,26 +136,22 @@ const SentencePage = () => {
     switch (currentStep) {
       case 0:
         setActive(1)
-        
+
         break
       case 1:
         setActive(2)
-        
 
         break
       case 2:
         setActive(1)
-        
 
         break
       case 3:
         setActive(2)
-        
 
         break
       case 4:
         setActive(4)
-        
 
         break
 
@@ -173,11 +174,25 @@ const SentencePage = () => {
       .map((card) => {
         if (!card) return ""
 
-        return card.type === "case"
-          ? `-${card.value}`
-          : card.type === "noun"
-            ? card.value.slice(0, -1)
-            : card.value
+        if (card.type === "case") {
+          return `-${card.value}`
+        }
+
+        if (card.type === "noun") {
+          const lastChar = card.value.at(-1)
+
+          if (["ა", "ო", "უ", "ე"].includes(lastChar!)) {
+            return card.value
+          }
+
+          if (lastChar === "ი") {
+            return card.value.slice(0, -1)
+          }
+
+          return card.value
+        }
+
+        return card.value
       })
       .filter(Boolean)
       .join(" ")
@@ -205,9 +220,29 @@ const SentencePage = () => {
     }
   }
 
+  const nextSentence = () => {
+    setCurrentStep(0)
+    setDragged(new Set())
+    setChosen(Array(5).fill(null))
+    shuffle()
+  }
+
+  const prevSentence = () => {
+    setCurrentStep(0)
+    setDragged(new Set())
+    setChosen(Array(5).fill(null))
+    setHistory((prev) => {
+      if (!prev.length) return prev
+
+      const last = prev[prev.length - 1]
+
+      setShuffledGroupedCards(last)
+      return prev.slice(0, -1)
+    })
+  }
+
   return (
     <DndContext
-    
       onDragEnd={(event) => {
         handleDragEnd(event)
         setIsDragging(false)
@@ -219,7 +254,10 @@ const SentencePage = () => {
         setActiveDrag(e.active.id as string)
       }}
     >
-      <div className="my-8 flex w-full min-w-[1206px] flex-col [@media(max-width:1068px)]:min-w-0" ref={ref}>
+      <div
+        className="flex w-full min-w-[1206px] flex-col py-8 [@media(max-width:1068px)]:min-w-0"
+        ref={ref}
+      >
         <div className="mx-auto flex gap-[11px] px-[80px] [@media(max-width:1068px)]:mx-0 [@media(max-width:1068px)]:min-w-0 [@media(max-width:1068px)]:flex-col [@media(max-width:1068px)]:items-center [@media(max-width:1068px)]:px-8 [@media(max-width:1358px)]:px-[40px]">
           <Categories
             categories={categories}
@@ -244,7 +282,12 @@ const SentencePage = () => {
           activeCard={activeCard}
         />
         <CardOutput buildSentence={buildSentence} chosen={chosen} />
-        <ButtonContainer refreshSteps={refreshSteps} takeScreenshot={takeScreenshot} />
+        <ButtonContainer
+          refreshSteps={refreshSteps}
+          takeScreenshot={takeScreenshot}
+          nextSentence={nextSentence}
+          prevSentence={prevSentence}
+        />
       </div>
       <DragOverlay dropAnimation={dropAnimation}>
         {activeDrag ? (

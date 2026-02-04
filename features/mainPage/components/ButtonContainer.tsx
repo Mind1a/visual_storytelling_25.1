@@ -1,20 +1,29 @@
 "use client"
 
+import { Card } from "@/types/mainPageTypes"
 import Image from "next/image"
+import { useState } from "react"
 
 type ButtonContainerProps = {
   refreshSteps: () => void
   takeScreenshot: () => Promise<void>
+  nextSentence: () => void
+  prevSentence: () => void
 }
 
 const ButtonContainer = ({
   refreshSteps,
   takeScreenshot,
+  nextSentence,
+  prevSentence,
 }: ButtonContainerProps) => {
   return (
     <div className="mx-auto mt-8 flex w-full max-w-[1366px] justify-center px-[80px]">
       <div className="flex space-x-6">
-        <button className="flex items-center justify-center gap-2 rounded-[10px] bg-[#A4BEF3] px-[42px] py-2.5 whitespace-nowrap text-white [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5">
+        <button
+          onClick={prevSentence}
+          className="flex items-center justify-center gap-2 rounded-[10px] bg-[#A4BEF3] px-[42px] py-2.5 whitespace-nowrap text-white [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5"
+        >
           <Image
             width={24}
             height={24}
@@ -48,7 +57,10 @@ const ButtonContainer = ({
             className="max-w-[72px] cursor-pointer rounded-[10px]"
           />
         </div>
-        <button className="flex items-center justify-center gap-2 rounded-[10px] bg-[#73C9C1] px-[36px] py-2.5 [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5">
+        <button
+          onClick={nextSentence}
+          className="flex items-center justify-center gap-2 rounded-[10px] bg-[#73C9C1] px-[36px] py-2.5 [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5"
+        >
           <span className="flex cursor-pointer items-center font-[BPG-Nino-Mtavruli] text-[16px] text-white [@media(max-width:1068px)]:hidden">
             შემდეგი
           </span>
