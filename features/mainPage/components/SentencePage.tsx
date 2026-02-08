@@ -40,6 +40,7 @@ const SentencePage = () => {
   >({})
   const [history, setHistory] = useState<Record<string, (Card | null)[]>[]>([])
   const [ref, takeScreenshot] = useScreenshot()
+  const [amountOfSentences, setAmountOfSentences] = useState<number>(1)
 
   // ეს ფუნქცია არევს ქარდებს
 
@@ -54,6 +55,26 @@ const SentencePage = () => {
   }, [])
 
   // ეს ფუნქცია არევს ქარდებს, დაალაგებებს ტიპების მიხედვით, შექმნის 4 arrays, სადაც თითოეულში გაეერთიანბეს მსგავს ტიპებს, თუ ამ გაერთიანებულ array - ში 7 -ზე ცოტა ელემნტი იქნება, ხელოვნურად შევავსე 7 -მდე, რო დიზაინზე გამოჩნდეს ცარიელი div - ები
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    try {
+      const stored = localStorage.getItem("history")
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        setHistory(parsed)
+
+        const last = parsed[parsed.length - 1]
+        if (last) {
+          setShuffledGroupedCards(last)
+          setAmountOfSentences(parsed.length + 1)
+        }
+      }
+    } catch (error) {
+      console.error("error reading history", error)
+    }
+  }, [])
 
   const shuffle = () => {
     if (cards.length === 0) return
@@ -91,16 +112,21 @@ const SentencePage = () => {
       finalGroups[type] = [...shuffled, ...emptySlots].slice(0, 7)
     })
 
-    setHistory((prev) =>
-      Object.keys(shuffledGroupedCards).length
-        ? [...prev, shuffledGroupedCards]
-        : prev
-    )
-
     setShuffledGroupedCards(finalGroups)
   }
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    try {
+      localStorage.setItem("history", JSON.stringify(history))
+    } catch (error) {
+      console.error("error setting localStorage", error)
+    }
+  }, [history])
 
   useEffect(() => {
+    if (!cards.length) return
+    if (history.length > 0) return
     shuffle()
   }, [cards])
 
@@ -222,22 +248,42 @@ const SentencePage = () => {
 
   const nextSentence = () => {
     setCurrentStep(0)
+    setHistory((prev) => [...prev, shuffledGroupedCards])
     setDragged(new Set())
     setChosen(Array(5).fill(null))
     shuffle()
+
+    setAmountOfSentences((prev) => {
+      if (prev === 5) {
+        return prev
+      } else return prev + 1
+    })
   }
 
   const prevSentence = () => {
     setCurrentStep(0)
     setDragged(new Set())
     setChosen(Array(5).fill(null))
+
     setHistory((prev) => {
-      if (!prev.length) return prev
+      if (prev.length <= 1) {
+        return []
+      }
 
-      const last = prev[prev.length - 1]
+      const newHistory = prev.slice(0, -1)
+      const previousSentence = newHistory[newHistory.length - 1]
 
-      setShuffledGroupedCards(last)
-      return prev.slice(0, -1)
+      setShuffledGroupedCards(previousSentence)
+
+      return newHistory
+    })
+
+    setAmountOfSentences((prev) => {
+      if (prev === 1) {
+        return prev
+      } else {
+        return prev - 1
+      }
     })
   }
 
@@ -283,6 +329,7 @@ const SentencePage = () => {
         />
         <CardOutput buildSentence={buildSentence} chosen={chosen} />
         <ButtonContainer
+          amountOfSentences={amountOfSentences}
           refreshSteps={refreshSteps}
           takeScreenshot={takeScreenshot}
           nextSentence={nextSentence}
