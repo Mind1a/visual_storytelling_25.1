@@ -119,6 +119,7 @@ export const cards: Card[] = [
     type: "noun",
     value: "სახლი",
     label: "არსებითი სახელი",
+    
   },
   {
     id: "16",

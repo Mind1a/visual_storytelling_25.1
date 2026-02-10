@@ -45,7 +45,7 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                     key={i}
                     id={`slot-${i}`}
                     value={value?.value}
-                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-solid [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
+                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-solid bg-white shadow-2xl [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
                     isHighlighted={isDragging && i === currentStep}
                   />
                 )
@@ -64,9 +64,9 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
                               : "transparent"
                       }`,
                     }}
-                    className={`flex min-h-[168px] min-w-[168px] items-center justify-center rounded-lg border-[5px] border-solid select-none [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
+                    className={`flex min-h-[168px] ${!value?.value && "bg-[#DAEBFF]"} min-w-[168px] items-center justify-center rounded-lg border-[5px] border-solid select-none [@media(max-width:1068px)]:min-h-[112px] [@media(max-width:1068px)]:min-w-[112px] [@media(max-width:1068px)]:bg-white`}
                   >
-                    {value?.value ?? "Drop here"}
+                    {value?.value}
                   </div>
                 )
               }

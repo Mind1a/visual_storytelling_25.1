@@ -17,7 +17,7 @@ const Droppable = ({ id, value, className, isHighlighted, idx }: any) => {
               : "border-transparent"
       }`}
     >
-      {value ?? "Drop here"}
+      {value ?? ""}
     </div>
   )
 }

@@ -11,7 +11,7 @@ const Draggable = ({ id, children, className, style, activeDrag }: any) => {
       style={style}
       {...listeners}
       {...attributes}
-      className={`cursor-grab ${className || "rounded-lg border bg-white"} z-51 ${activeDrag === id ? "!opacity-0" : ""}`}
+      className={`cursor-grab transition-all duration-300 ease-in-out hover:scale-110 ${className || "rounded-lg bg-white"} z-51 ${activeDrag === id ? "opacity-50" : ""}`}
     >
       {children}
     </div>
