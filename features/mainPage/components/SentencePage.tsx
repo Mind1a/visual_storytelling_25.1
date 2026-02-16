@@ -13,7 +13,7 @@ import ChosenCards from "./ChosenCards"
 import CardOutput from "./CardOutput"
 import ButtonContainer from "./ButtonContainer"
 import DisplayCardsLayout from "./DisplayCardsLayout"
-import { Card } from "@/types/mainPageTypes"
+import { Card, SentenceState } from "@/types/mainPageTypes"
 import { correctSentence1 } from "../data/cardsPlaceholderData"
 import { ensureCorrectValue } from "../utils/ensureCorrectValue"
 import useScreenshot from "../utils/useScreenshot"
@@ -22,7 +22,17 @@ const SentencePage = () => {
   // რომელი კატეგორია აქტიური Id- ს მიხედვით
   const [active, setActive] = useState<number>(1)
   // 5 ელემენტიანი array, თავიდან არის ყველა null, მერე იმის მიხედვით თუ რას აირჩევს useri - იმ არჩეუილმა Card - მა ჩაანაცვლოს null - იმ ინდექსზე რომელზეც ჩასვა
-  const [chosen, setChosen] = useState<(Card | null)[]>(Array(5).fill(null))
+  const [chosen, setChosen] = useState<(Card | null)[]>(() => {
+    const stored = localStorage.getItem("chosen")
+
+    if (!stored) return Array(5).fill(null)
+
+    try {
+      return JSON.parse(stored) as (Card | null)[]
+    } catch {
+      return Array(5).fill(null)
+    }
+  })
   // ის ქარდები რომელიც უკვე გამოვიყენეთ
   const [dragged, setDragged] = useState<Set<number>>(new Set())
   // კონკრეტული ქარდზე ხელი გვაქ თუ არა მოკიდებული
@@ -38,9 +48,12 @@ const SentencePage = () => {
   const [shuffledGroupedCards, setShuffledGroupedCards] = useState<
     Record<string, (Card | null)[]>
   >({})
-  const [history, setHistory] = useState<Record<string, (Card | null)[]>[]>([])
+  const [history, setHistory] = useState<SentenceState[]>([])
+
   const [ref, takeScreenshot] = useScreenshot()
   const [amountOfSentences, setAmountOfSentences] = useState<number>(1)
+  const [sentences, setSentences] = useState<SentenceState[]>([])
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   // ეს ფუნქცია არევს ქარდებს
 
@@ -55,26 +68,6 @@ const SentencePage = () => {
   }, [])
 
   // ეს ფუნქცია არევს ქარდებს, დაალაგებებს ტიპების მიხედვით, შექმნის 4 arrays, სადაც თითოეულში გაეერთიანბეს მსგავს ტიპებს, თუ ამ გაერთიანებულ array - ში 7 -ზე ცოტა ელემნტი იქნება, ხელოვნურად შევავსე 7 -მდე, რო დიზაინზე გამოჩნდეს ცარიელი div - ები
-
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    try {
-      const stored = localStorage.getItem("history")
-      if (stored) {
-        const parsed = JSON.parse(stored)
-        setHistory(parsed)
-
-        const last = parsed[parsed.length - 1]
-        if (last) {
-          setShuffledGroupedCards(last)
-          setAmountOfSentences(parsed.length + 1)
-        }
-      }
-    } catch (error) {
-      console.error("error reading history", error)
-    }
-  }, [])
 
   const shuffle = () => {
     if (cards.length === 0) return
@@ -118,11 +111,11 @@ const SentencePage = () => {
     if (typeof window === "undefined") return
 
     try {
-      localStorage.setItem("history", JSON.stringify(history))
+      localStorage.setItem("chosen", JSON.stringify(chosen))
     } catch (error) {
       console.error("error setting localStorage", error)
     }
-  }, [history])
+  }, [chosen])
 
   useEffect(() => {
     if (!cards.length) return
@@ -247,8 +240,12 @@ const SentencePage = () => {
   }
 
   const nextSentence = () => {
+    setHistory((prev) => [
+      ...prev,
+      { shuffled: shuffledGroupedCards, chosen: chosen },
+    ])
     setCurrentStep(0)
-    setHistory((prev) => [...prev, shuffledGroupedCards])
+
     setDragged(new Set())
     setChosen(Array(5).fill(null))
     shuffle()
@@ -261,30 +258,26 @@ const SentencePage = () => {
   }
 
   const prevSentence = () => {
-    setCurrentStep(0)
-    setDragged(new Set())
-    setChosen(Array(5).fill(null))
-
     setHistory((prev) => {
-      if (prev.length <= 1) {
-        return []
-      }
+      if (prev.length === 0) return prev
 
-      const newHistory = prev.slice(0, -1)
-      const previousSentence = newHistory[newHistory.length - 1]
+      const newHistory = [...prev]
+      const lastSentence = newHistory.pop()!
 
-      setShuffledGroupedCards(previousSentence)
+      setShuffledGroupedCards(lastSentence.shuffled)
+      setChosen(lastSentence.chosen)
+      const restoredDragged = new Set(
+        lastSentence.chosen.filter(Boolean).map((card) => card!.id as any)
+      )
+
+      setDragged(restoredDragged)
 
       return newHistory
     })
 
-    setAmountOfSentences((prev) => {
-      if (prev === 1) {
-        return prev
-      } else {
-        return prev - 1
-      }
-    })
+    setCurrentStep(0)
+
+    setAmountOfSentences((prev) => (prev === 1 ? prev : prev - 1))
   }
 
   return (

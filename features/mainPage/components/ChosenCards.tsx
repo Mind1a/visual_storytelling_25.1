@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMediaQuery } from "../utils/useMediaQuery"
 import { EmblaSlide, EmblaSlider } from "./EmblaSlider"
 import Droppable from "../utils/Droppable"
@@ -38,7 +38,7 @@ const ChosenCards = ({ chosen, isDragging, currentStep }: any) => {
             </>
           ) : (
             chosen.map((value: Card | null, i: number) => {
-              if (i === currentStep) {
+              if (i === chosen.indexOf(null)) {
                 return (
                   <Droppable
                     idx={i}

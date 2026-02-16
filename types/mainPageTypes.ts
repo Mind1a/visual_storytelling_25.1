@@ -23,5 +23,8 @@ export type Card = {
 
 export type CorrectCard = Omit<Card, "label">
 
-
+export type SentenceState = {
+  shuffled: Record<string, (Card | null)[]>
+  chosen: (Card | null)[]
+}
 
