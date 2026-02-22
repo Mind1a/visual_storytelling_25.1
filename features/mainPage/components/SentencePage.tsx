@@ -146,7 +146,7 @@ const SentencePage = () => {
     }
   }, [currentStep])
 
-  const refreshSteps = () => {
+  const refreshSteps = ()  => {
     setCurrentStep(0)
     setDragged(new Set())
 
@@ -278,7 +278,7 @@ const SentencePage = () => {
             activeDrag={activeDrag}
             isDragging={isDragging}
             displayCards={displayCards}
-            chosen={chosen as any}
+            chosen={chosen}
           />
         </div>
 
@@ -288,7 +288,7 @@ const SentencePage = () => {
           currentStep={currentStep}
           activeCard={activeCard}
         />
-        <CardOutput buildSentence={buildSentence} chosen={chosen as any} />
+        <CardOutput buildSentence={buildSentence} chosen={chosen} />
         <ButtonContainer
           amountOfSentences={currentIndex + 1}
           refreshSteps={refreshSteps}

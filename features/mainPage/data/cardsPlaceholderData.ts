@@ -5,6 +5,7 @@ export const correctSentence1: CorrectCard[] = [
     id: "1",
     type: "noun",
     value: "ძაღლი",
+    
   },
   {
     id: "2",
