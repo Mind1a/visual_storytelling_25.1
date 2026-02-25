@@ -11,6 +11,7 @@ type ButtonContainerProps = {
   nextSentence: () => void
   prevSentence: () => void
   amountOfSentences: number
+  isFourWords?: boolean
 }
 
 const ButtonContainer = ({
@@ -19,6 +20,7 @@ const ButtonContainer = ({
   nextSentence,
   prevSentence,
   amountOfSentences,
+  isFourWords,
 }: ButtonContainerProps) => {
   const [isBackDisabled, setIsBackDisabled] = useState(true)
   const [isNextDisabled, setIsNextDisabled] = useState(false)

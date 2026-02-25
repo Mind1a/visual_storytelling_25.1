@@ -5,7 +5,6 @@ export const correctSentence1: CorrectCard[] = [
     id: "1",
     type: "noun",
     value: "ძაღლი",
-    
   },
   {
     id: "2",
@@ -120,7 +119,6 @@ export const cards: Card[] = [
     type: "noun",
     value: "სახლი",
     label: "არსებითი სახელი",
-    
   },
   {
     id: "16",
@@ -139,5 +137,23 @@ export const cards: Card[] = [
     type: "noun",
     value: "რამე",
     label: "არსებითი სახელი",
+  },
+  {
+    id: "19",
+    type: "postposition",
+    value: "თანდებული 1",
+    label: "თანდებული",
+  },
+  {
+    id: "20",
+    type: "postposition",
+    value: "თანდებული 2",
+    label: "თანდებული",
+  },
+  {
+    id: "21",
+    type: "postposition",
+    value: "თანდებული 3",
+    label: "თანდებული",
   },
 ]

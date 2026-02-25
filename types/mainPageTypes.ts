@@ -11,6 +11,7 @@ export type CategoriesProps = {
   categories: CategorieDataType[]
   active: number
   setActive: (id: number) => void
+  isFourWords?: boolean
 }
 
 export type Card = {
@@ -27,3 +28,5 @@ export type SentenceState = {
   chosen: (Card | null)[]
   amountOfSentence?: number
 }
+
+

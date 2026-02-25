@@ -3,18 +3,20 @@
 import Image from "next/image"
 
 import type { CategoriesProps } from "@/types/mainPageTypes"
-import { useState } from "react"
 
-const Categories = ({ categories, active, setActive }: CategoriesProps) => {
-  const [wordNumber] = useState(3)
-
+const Categories = ({
+  categories,
+  active,
+  setActive,
+  isFourWords,
+}: CategoriesProps) => {
   return (
     <div>
       <div className="flex flex-col gap-3 [@media(max-width:1068px)]:flex-row">
         {categories.map((categorie, idx) => (
           <div
             key={categorie.id}
-            className={`relative flex items-center gap-3 [@media(max-width:1068px)]:flex-col [@media(max-width:1068px)]:gap-1 ${idx === 2 && "opacity-50"}`}
+            className={`relative flex items-center gap-3 [@media(max-width:1068px)]:flex-col [@media(max-width:1068px)]:gap-1 ${isFourWords ? "" : idx === 2 && "opacity-50"}`}
           >
             <div
               style={{ backgroundColor: categorie.bgColor }}
@@ -40,7 +42,7 @@ const Categories = ({ categories, active, setActive }: CategoriesProps) => {
                   "--shadow-color": categorie.bgColor,
                 } as React.CSSProperties
               }
-              className={`relative -ml-3 flex h-10  items-center rounded-r-2xl pr-5 pl-8 ${active === categorie.id && "!rounded-tr-none !rounded-br-none [box-shadow:12px_0_0_0_var(--shadow-color)]"} transition-[box-shadow,border-radius] [@media(max-width:1068px)]:hidden`}
+              className={`relative -ml-3 flex h-10 items-center rounded-r-2xl pr-5 pl-8 ${active === categorie.id && "!rounded-tr-none !rounded-br-none [box-shadow:12px_0_0_0_var(--shadow-color)]"} transition-[box-shadow,border-radius] [@media(max-width:1068px)]:hidden`}
             >
               <div className="absolute top-0 left-0 h-full w-5 -translate-x-1/2 rounded-[100%] bg-white [@media(max-width:1068px)]:hidden" />
 
