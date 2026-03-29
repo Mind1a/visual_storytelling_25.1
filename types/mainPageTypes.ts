@@ -1,17 +1,17 @@
 export type CategorieDataType = {
-    id: number;
-    icon: string;
-    text: string;
-    bgColor: string;
-    active: boolean;
-    mobielBg?: string;
+  id: number
+  icon: string
+  text: string
+  bgColor: string
+  active: boolean
+  mobielBg?: string
 }
 
 export type CategoriesProps = {
   categories: CategorieDataType[]
   active: number
   setActive: (id: number) => void
- 
+  isFourWords?: boolean
 }
 
 export type Card = {
@@ -23,5 +23,10 @@ export type Card = {
 
 export type CorrectCard = Omit<Card, "label">
 
+export type SentenceState = {
+  shuffled: Record<string, (Card | null)[]>
+  chosen: (Card | null)[]
+  amountOfSentence?: number
+}
 
 

@@ -17,8 +17,9 @@ import { Card, SentenceState } from "@/types/mainPageTypes"
 import { correctSentence1 } from "../data/cardsPlaceholderData"
 import { ensureCorrectValue } from "../utils/ensureCorrectValue"
 import useScreenshot from "../utils/useScreenshot"
+import { usePathname } from "next/navigation"
 
-const SentencePage = () => {
+const FourSentencePage = () => {
   const [active, setActive] = useState<number>(1)
   const [dragged, setDragged] = useState<Set<number>>(new Set())
   const [isDragging, setIsDragging] = useState(false)
@@ -27,8 +28,11 @@ const SentencePage = () => {
   const [cards, setCards] = useState<Card[]>([])
   const [correctCards] = useState(correctSentence1)
 
+  const params = usePathname()
+  const isFourWords = params === "/fourWord" ? true : false
+
   const emptySentence: SentenceState = {
-    chosen: Array(5).fill(null),
+    chosen: Array(7).fill(null),
     shuffled: {},
   }
 
@@ -125,24 +129,52 @@ const SentencePage = () => {
   }
 
   useEffect(() => {
-    switch (currentStep) {
-      case 0:
-        setActive(1)
-        break
-      case 1:
-        setActive(2)
-        break
-      case 2:
-        setActive(1)
-        break
-      case 3:
-        setActive(2)
-        break
-      case 4:
-        setActive(4)
-        break
-      default:
-        break
+    if (!isFourWords) {
+      switch (currentStep) {
+        case 0:
+          setActive(1)
+          break
+        case 1:
+          setActive(2)
+          break
+        case 2:
+          setActive(1)
+          break
+        case 3:
+          setActive(2)
+          break
+        case 4:
+          setActive(4)
+          break
+        default:
+          break
+      }
+    } else {
+      switch (currentStep) {
+        case 0:
+          setActive(1)
+          break
+        case 1:
+          setActive(2)
+          break
+        case 2:
+          setActive(1)
+          break
+        case 3:
+          setActive(3)
+          break
+        case 4:
+          setActive(1)
+          break
+        case 5:
+          setActive(2)
+          break
+        case 6:
+          setActive(4)
+          break
+        default:
+          break
+      }
     }
   }, [currentStep])
 
@@ -151,8 +183,23 @@ const SentencePage = () => {
     setDragged(new Set())
     setCurrentIndex(0)
 
+    setFullHistoryArray((prev) => {
+      const copy = [...prev]
+      copy[currentIndex] = {
+        ...copy[currentIndex],
+        chosen: Array(7).fill(null),
+      }
+      return copy
+    })
+  }
+
+  const fourWordRefreshSteps = () => {
+    setCurrentStep(0)
+    setDragged(new Set())
+    setCurrentIndex(0)
+
     const newSentence: SentenceState = {
-      chosen: Array(5).fill(null),
+      chosen: Array(7).fill(null),
       shuffled: generateShuffle(),
     }
 
@@ -164,7 +211,7 @@ const SentencePage = () => {
       .map((card) => {
         if (!card) return ""
 
-        if (card.type === "case") {
+        if (card.type === "case" || card.type === "postposition") {
           return `-${card.value}`
         }
 
@@ -226,7 +273,7 @@ const SentencePage = () => {
 
       if (isLast) {
         const newSentence: SentenceState = {
-          chosen: Array(5).fill(null),
+          chosen: Array(7).fill(null),
           shuffled: generateShuffle(),
         }
 
@@ -268,6 +315,7 @@ const SentencePage = () => {
             categories={categories}
             active={active}
             setActive={setActive}
+            isFourWords={isFourWords}
           />
           <DisplayCardsLayout
             categories={categories}
@@ -286,14 +334,16 @@ const SentencePage = () => {
           isDragging={isDragging}
           currentStep={currentStep}
           activeCard={activeCard}
+          isFourWords={isFourWords}
         />
         <CardOutput buildSentence={buildSentence} chosen={chosen} />
         <ButtonContainer
           amountOfSentences={currentIndex + 1}
-          refreshSteps={refreshSteps}
+          refreshSteps={fourWordRefreshSteps}
           takeScreenshot={takeScreenshot}
           nextSentence={nextSentence}
           prevSentence={prevSentence}
+          isFourWords={isFourWords}
         />
       </div>
 
@@ -308,4 +358,4 @@ const SentencePage = () => {
   )
 }
 
-export default SentencePage
+export default FourSentencePage
