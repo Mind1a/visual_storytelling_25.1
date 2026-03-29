@@ -2,6 +2,7 @@
 
 import { Card } from "@/types/mainPageTypes"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
 type ButtonContainerProps = {
@@ -10,6 +11,7 @@ type ButtonContainerProps = {
   nextSentence: () => void
   prevSentence: () => void
   amountOfSentences: number
+  isFourWords?: boolean
 }
 
 const ButtonContainer = ({
@@ -18,6 +20,7 @@ const ButtonContainer = ({
   nextSentence,
   prevSentence,
   amountOfSentences,
+  isFourWords,
 }: ButtonContainerProps) => {
   const [isBackDisabled, setIsBackDisabled] = useState(true)
   const [isNextDisabled, setIsNextDisabled] = useState(false)
@@ -73,24 +76,33 @@ const ButtonContainer = ({
             className="max-w-[72px] cursor-pointer rounded-[10px]"
           />
         </div>
-        <button
-          onClick={nextSentence}
-          disabled={isNextDisabled}
-          className="flex cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#73C9C1] px-[36px] py-2.5 disabled:cursor-default disabled:opacity-50 [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5"
-        >
-          <span className="flex items-center font-[BPG-Nino-Mtavruli] text-[16px] text-white [@media(max-width:1068px)]:hidden">
-            შემდეგი
-          </span>
-          <div className="block">
-            <Image
-              width={24}
-              height={24}
-              alt="arrow"
-              src="/icons/whiteArrowRight.svg"
-              className="min-h-6 min-w-6"
-            />
-          </div>
-        </button>
+        {isNextDisabled ? (
+          <Link
+            href="/success"
+            className="flex cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#73C9C1] px-[36px] py-2.5 font-[BPG-Nino-Mtavruli] text-[16px] text-white disabled:cursor-default disabled:opacity-50 [@media(max-width:1068px)]:hidden [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5"
+          >
+            დასრულება
+          </Link>
+        ) : (
+          <button
+            onClick={nextSentence}
+            disabled={isNextDisabled}
+            className="flex cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#73C9C1] px-[36px] py-2.5 disabled:cursor-default disabled:opacity-50 [@media(max-width:1068px)]:px-[23px] [@media(max-width:1068px)]:py-2.5"
+          >
+            <span className="flex items-center font-[BPG-Nino-Mtavruli] text-[16px] text-white [@media(max-width:1068px)]:hidden">
+              შემდეგი
+            </span>
+            <div className="block">
+              <Image
+                width={24}
+                height={24}
+                alt="arrow"
+                src="/icons/whiteArrowRight.svg"
+                className="min-h-6 min-w-6"
+              />
+            </div>
+          </button>
+        )}
       </div>
     </div>
   )

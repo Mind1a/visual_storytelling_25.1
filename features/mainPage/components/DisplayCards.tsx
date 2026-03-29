@@ -16,6 +16,7 @@ const DisplayCards = ({
   activeDrag,
   displayCards,
   loading,
+  chosen,
 }: any) => {
   const activeCategory = categories.find(
     (cat: { id: number }) => cat.id === active
@@ -37,7 +38,8 @@ const DisplayCards = ({
       {loading
         ? Array.from({ length: 7 }).map((_, idx) => <SkeletonCard key={idx} />)
         : displayCards.map((item: any, idx: number) =>
-            dragged?.has(item?.id) ? (
+            dragged?.has(item?.id) ||
+            chosen?.some((c: any) => c?.id === item?.id) ? (
               <div
                 key={idx}
                 className="flex max-w-[130px] min-w-[130px] items-center justify-center rounded-[10px] border bg-white opacity-50 select-none"
