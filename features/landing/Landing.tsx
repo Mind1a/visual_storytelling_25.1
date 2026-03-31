@@ -1,14 +1,7 @@
-"use client"
-
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 export const Landing = () => {
-  const router = useRouter()
-
-  const handleClick = () => {
-    router.push("/ideas")
-  }
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-between gap-12 px-[33px] md:mx-auto md:max-w-[798px] md:gap-0">
       {/* Heading */}
@@ -28,12 +21,12 @@ export const Landing = () => {
       </div>
 
       {/* Button */}
-      <button
-        onClick={handleClick}
-        className="mb-8 w-full max-w-[325px] cursor-pointer rounded-[10px] bg-[#F9958F] p-2.5 font-[BPG-Nino-Mtavruli] font-bold text-white transition-colors hover:bg-[#F5B3A3] md:w-[185px]"
+      <Link
+        href="/ideas"
+        className="mb-8 w-full flex items-center justify-center max-w-[325px] cursor-pointer rounded-[10px] bg-[#F9958F] p-2.5 font-[BPG-Nino-Mtavruli] font-bold text-white transition-colors hover:bg-[#F5B3A3] md:w-[185px]"
       >
         გაგრძელება
-      </button>
+      </Link>
     </div>
   )
 }

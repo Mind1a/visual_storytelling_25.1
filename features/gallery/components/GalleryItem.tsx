@@ -13,7 +13,7 @@ function GalleryItem({ item, onDownload, index }: GalleryItemProps) {
   return (
     <div>
       <div
-        className={`relative flex h-[200px] w-full items-center justify-center overflow-hidden rounded-lg border-[4px] p-[25px] shadow-md ${index % 2 === 0 ? "border-[#bad8fc]" : "border-[#f5b3a3]"}`}
+        className={`relative flex h-[200px] w-full items-center justify-center overflow-hidden rounded-lg border-[4px] p-[25px] shadow-md ${item.type === "noun" ? "border-[#bad8fc]" : "border-[#f5b3a3]"}`}
       >
         <Image
           src={downloadIcon}

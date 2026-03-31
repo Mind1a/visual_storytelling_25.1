@@ -1,6 +1,6 @@
 "use client"
 
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, motion, ValueTransition } from "motion/react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -19,7 +19,7 @@ export default function Header() {
 
   return (
     <header className="relative mx-auto flex max-w-[1206px] items-center justify-between bg-[#BAD8FC] py-3.5">
-      <Link href="/">
+      <Link href="/ideas">
         <Image
           src="/images/logo.svg"
           alt="Logo"
@@ -85,11 +85,14 @@ export default function Header() {
         {menuOpen && (
           <motion.div
             key="burger-menu"
-            className="absolute top-full right-[9px] left-[9px] z-10 w-full rounded-[10px] border border-[#F5B3A3] bg-white [@media(min-width:1068px)]:hidden"
-            initial={{ y: "-100%" }}
-            animate={{ y: "0%" }}
-            exit={{ y: "-100%" }}
-            transition={{ duration: 0.5 }}
+            className="absolute right-[9px] left-[9px] z-50 mt-2 w-auto rounded-[10px] border-2 border-[#F5B3A3] bg-white shadow-lg [@media(min-width:1068px)]:hidden"
+            style={{ top: "100%" }}
+            initial={{ opacity: 0, height: "0" }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: "0" }}
+            transition={{
+              duration: 0.5,
+            }}
           >
             <ul className="flex flex-col gap-4 px-4 py-6 font-[DejaVu-Sans] text-lg">
               {routes.map((route, index) => {
